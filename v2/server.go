@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/trace"
 	"sync"
 	"time"
 
@@ -20,7 +22,6 @@ import (
 	backendsiface "github.com/RichardKnop/machinery/v2/backends/iface"
 	brokersiface "github.com/RichardKnop/machinery/v2/brokers/iface"
 	lockiface "github.com/RichardKnop/machinery/v2/locks/iface"
-	opentracing "github.com/opentracing/opentracing-go"
 )
 
 // Server is the main Machinery object and stores all configuration
@@ -148,11 +149,11 @@ func (server *Server) GetRegisteredTask(name string) (interface{}, error) {
 
 // SendTaskWithContext will inject the trace context in the signature headers before publishing it
 func (server *Server) SendTaskWithContext(ctx context.Context, signature *tasks.Signature) (*result.AsyncResult, error) {
-	span, _ := opentracing.StartSpanFromContext(ctx, "SendTask", tracing.ProducerOption(), tracing.MachineryTag)
-	defer span.Finish()
+	ctx, span := otel.Tracer(tracing.MachineryTraceName).Start(ctx, "SendTask", trace.WithSpanKind(trace.SpanKindProducer), trace.WithAttributes(tracing.MachineryTag))
+	defer span.End()
 
 	// tag the span with some info about the signature
-	signature.Headers = tracing.HeadersWithSpan(signature.Headers, span)
+	signature.Headers = tracing.HeadersWithSpan(ctx, signature.Headers)
 
 	// Make sure result backend is defined
 	if server.backend == nil {
@@ -188,10 +189,9 @@ func (server *Server) SendTask(signature *tasks.Signature) (*result.AsyncResult,
 
 // SendChainWithContext will inject the trace context in all the signature headers before publishing it
 func (server *Server) SendChainWithContext(ctx context.Context, chain *tasks.Chain) (*result.ChainAsyncResult, error) {
-	span, _ := opentracing.StartSpanFromContext(ctx, "SendChain", tracing.ProducerOption(), tracing.MachineryTag, tracing.WorkflowChainTag)
-	defer span.Finish()
-
-	tracing.AnnotateSpanWithChainInfo(span, chain)
+	ctx, span := otel.Tracer(tracing.MachineryTraceName).Start(ctx, "SendChain", trace.WithSpanKind(trace.SpanKindProducer), trace.WithAttributes(tracing.MachineryTag, tracing.WorkflowChainTag))
+	defer span.End()
+	tracing.AnnotateSpanWithChainInfo(ctx, span, chain)
 
 	return server.SendChain(chain)
 }
@@ -208,10 +208,10 @@ func (server *Server) SendChain(chain *tasks.Chain) (*result.ChainAsyncResult, e
 
 // SendGroupWithContext will inject the trace context in all the signature headers before publishing it
 func (server *Server) SendGroupWithContext(ctx context.Context, group *tasks.Group, sendConcurrency int) ([]*result.AsyncResult, error) {
-	span, _ := opentracing.StartSpanFromContext(ctx, "SendGroup", tracing.ProducerOption(), tracing.MachineryTag, tracing.WorkflowGroupTag)
-	defer span.Finish()
+	ctx, span := otel.Tracer(tracing.MachineryTraceName).Start(ctx, "SendGroup", trace.WithSpanKind(trace.SpanKindProducer), trace.WithAttributes(tracing.MachineryTag, tracing.WorkflowGroupTag))
+	defer span.End()
 
-	tracing.AnnotateSpanWithGroupInfo(span, group, sendConcurrency)
+	tracing.AnnotateSpanWithGroupInfo(ctx, span, group, sendConcurrency)
 
 	// Make sure result backend is defined
 	if server.backend == nil {
@@ -289,10 +289,11 @@ func (server *Server) SendGroup(group *tasks.Group, sendConcurrency int) ([]*res
 
 // SendChordWithContext will inject the trace context in all the signature headers before publishing it
 func (server *Server) SendChordWithContext(ctx context.Context, chord *tasks.Chord, sendConcurrency int) (*result.ChordAsyncResult, error) {
-	span, _ := opentracing.StartSpanFromContext(ctx, "SendChord", tracing.ProducerOption(), tracing.MachineryTag, tracing.WorkflowChordTag)
-	defer span.Finish()
 
-	tracing.AnnotateSpanWithChordInfo(span, chord, sendConcurrency)
+	ctx, span := otel.Tracer(tracing.MachineryTraceName).Start(ctx, "SendChord", trace.WithSpanKind(trace.SpanKindProducer), trace.WithAttributes(tracing.MachineryTag, tracing.WorkflowChordTag))
+	defer span.End()
+
+	tracing.AnnotateSpanWithChordInfo(ctx, span, chord, sendConcurrency)
 
 	_, err := server.SendGroupWithContext(ctx, chord.Group, sendConcurrency)
 	if err != nil {

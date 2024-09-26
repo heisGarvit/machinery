@@ -8,15 +8,15 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-redsync/redsync/v4"
-	redsyncgoredis "github.com/go-redsync/redsync/v4/redis/goredis/v9"
-	"github.com/redis/go-redis/v9"
-
 	"github.com/RichardKnop/machinery/v2/backends/iface"
 	"github.com/RichardKnop/machinery/v2/common"
 	"github.com/RichardKnop/machinery/v2/config"
 	"github.com/RichardKnop/machinery/v2/log"
 	"github.com/RichardKnop/machinery/v2/tasks"
+	"github.com/go-redsync/redsync/v4"
+	redsyncgoredis "github.com/go-redsync/redsync/v4/redis/goredis/v9"
+	"github.com/redis/go-redis/extra/redisotel/v9"
+	"github.com/redis/go-redis/v9"
 )
 
 // BackendGR represents a Redis result backend
@@ -58,6 +58,8 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Backend {
 	} else {
 		b.rclient = redis.NewUniversalClient(ropt)
 	}
+	_ = redisotel.InstrumentTracing(b.rclient)
+	_ = redisotel.InstrumentMetrics(b.rclient)
 	b.redsync = redsync.New(redsyncgoredis.NewPool(b.rclient))
 	return b
 }
