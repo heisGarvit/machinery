@@ -57,6 +57,7 @@ func AnnotateSpanWithSignatureInfo(span trace.Span, signature *tasks.Signature) 
 		// tag the span with some info about the signature
 		attribute.String("signature.uuid", signature.UUID),
 		attribute.String("signature.name", signature.Name),
+		attribute.String("signature.routing.key", signature.RoutingKey),
 	}
 
 	if signature.GroupUUID != "" {

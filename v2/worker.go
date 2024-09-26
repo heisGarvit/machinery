@@ -159,7 +159,7 @@ func (worker *Worker) Process(signature *tasks.Signature) error {
 	// so it can be used inside the function if it has context.Context as the first
 	// argument. Start a new span if it isn't found.
 	var taskSpan trace.Span
-	task.Context, taskSpan = tracing.StartSpanFromHeaders(task.Context, signature.Headers, signature.Name)
+	task.Context, taskSpan = tracing.StartSpanFromHeaders(task.Context, signature.Headers, "ProcessTask "+signature.Name)
 	tracing.AnnotateSpanWithSignatureInfo(taskSpan, signature)
 
 	// Update task state to STARTED

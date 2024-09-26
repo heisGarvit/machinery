@@ -5,7 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"
+	"strconv"
 	"sync"
 	"time"
 
@@ -149,7 +151,15 @@ func (server *Server) GetRegisteredTask(name string) (interface{}, error) {
 
 // SendTaskWithContext will inject the trace context in the signature headers before publishing it
 func (server *Server) SendTaskWithContext(ctx context.Context, signature *tasks.Signature) (*result.AsyncResult, error) {
-	ctx, span := otel.Tracer(tracing.MachineryTraceName).Start(ctx, "SendTask", trace.WithSpanKind(trace.SpanKindProducer), trace.WithAttributes(tracing.MachineryTag))
+	ctx, span := otel.Tracer(tracing.MachineryTraceName).Start(ctx, "SendTask "+signature.Name, trace.WithSpanKind(trace.SpanKindProducer), trace.WithAttributes(tracing.MachineryTag))
+	span.SetAttributes(attribute.String("signature.routing.key", signature.RoutingKey))
+	if signature.ETA != nil {
+		span.SetAttributes(attribute.String("signature.eta", signature.ETA.String()))
+	} else {
+		span.SetAttributes(attribute.String("signature.eta", "nil"))
+	}
+	span.SetAttributes(attribute.String("signature.priority", strconv.Itoa(int(signature.Priority))))
+	span.SetAttributes(attribute.String("signature.retry.count", strconv.Itoa(signature.RetryCount)))
 	defer span.End()
 
 	// tag the span with some info about the signature
