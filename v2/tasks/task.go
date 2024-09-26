@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"runtime/debug"
 
-	"github.com/RichardKnop/machinery/v2/log"
+	"github.com/heisGarvit/machinery/v2/log"
 )
 
 // ErrTaskPanicked ...

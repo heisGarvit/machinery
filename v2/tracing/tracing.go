@@ -7,7 +7,7 @@ import (
 	"go.opentelemetry.io/otel/propagation"
 	"net/http"
 
-	"github.com/RichardKnop/machinery/v2/tasks"
+	"github.com/heisGarvit/machinery/v2/tasks"
 
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"

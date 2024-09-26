@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/RichardKnop/machinery/v2/tracing"
+	"github.com/heisGarvit/machinery/v2/tracing"
 	"os"
 	"time"
 
@@ -13,16 +13,16 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 
-	"github.com/RichardKnop/machinery/v2"
-	"github.com/RichardKnop/machinery/v2/config"
-	"github.com/RichardKnop/machinery/v2/log"
-	"github.com/RichardKnop/machinery/v2/tasks"
+	"github.com/heisGarvit/machinery/v2"
+	"github.com/heisGarvit/machinery/v2/config"
+	"github.com/heisGarvit/machinery/v2/log"
+	"github.com/heisGarvit/machinery/v2/tasks"
 
-	redisbackend "github.com/RichardKnop/machinery/v2/backends/redis"
-	redisbroker "github.com/RichardKnop/machinery/v2/brokers/redis"
-	exampletasks "github.com/RichardKnop/machinery/v2/example/tasks"
-	"github.com/RichardKnop/machinery/v2/example/tracers"
-	eagerlock "github.com/RichardKnop/machinery/v2/locks/eager"
+	redisbackend "github.com/heisGarvit/machinery/v2/backends/redis"
+	redisbroker "github.com/heisGarvit/machinery/v2/brokers/redis"
+	exampletasks "github.com/heisGarvit/machinery/v2/example/tasks"
+	"github.com/heisGarvit/machinery/v2/example/tracers"
+	eagerlock "github.com/heisGarvit/machinery/v2/locks/eager"
 )
 
 var (

@@ -3,10 +3,10 @@ package common_test
 import (
 	"testing"
 
-	"github.com/RichardKnop/machinery/v2"
-	"github.com/RichardKnop/machinery/v2/common"
-	"github.com/RichardKnop/machinery/v2/config"
-	"github.com/RichardKnop/machinery/v2/tasks"
+	"github.com/heisGarvit/machinery/v2"
+	"github.com/heisGarvit/machinery/v2/common"
+	"github.com/heisGarvit/machinery/v2/config"
+	"github.com/heisGarvit/machinery/v2/tasks"
 	"github.com/stretchr/testify/assert"
 )
 

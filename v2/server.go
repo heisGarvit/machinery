@@ -12,16 +12,16 @@ import (
 	"github.com/google/uuid"
 	"github.com/robfig/cron/v3"
 
-	"github.com/RichardKnop/machinery/v2/backends/result"
-	"github.com/RichardKnop/machinery/v2/config"
-	"github.com/RichardKnop/machinery/v2/log"
-	"github.com/RichardKnop/machinery/v2/tasks"
-	"github.com/RichardKnop/machinery/v2/tracing"
-	"github.com/RichardKnop/machinery/v2/utils"
+	"github.com/heisGarvit/machinery/v2/backends/result"
+	"github.com/heisGarvit/machinery/v2/config"
+	"github.com/heisGarvit/machinery/v2/log"
+	"github.com/heisGarvit/machinery/v2/tasks"
+	"github.com/heisGarvit/machinery/v2/tracing"
+	"github.com/heisGarvit/machinery/v2/utils"
 
-	backendsiface "github.com/RichardKnop/machinery/v2/backends/iface"
-	brokersiface "github.com/RichardKnop/machinery/v2/brokers/iface"
-	lockiface "github.com/RichardKnop/machinery/v2/locks/iface"
+	backendsiface "github.com/heisGarvit/machinery/v2/backends/iface"
+	brokersiface "github.com/heisGarvit/machinery/v2/brokers/iface"
+	lockiface "github.com/heisGarvit/machinery/v2/locks/iface"
 )
 
 // Server is the main Machinery object and stores all configuration

@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/RichardKnop/machinery/v2/tracing"
 	"github.com/google/uuid"
+	"github.com/heisGarvit/machinery/v2/tracing"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"os"
@@ -13,16 +13,16 @@ import (
 
 	"github.com/urfave/cli"
 
-	"github.com/RichardKnop/machinery/v2"
-	"github.com/RichardKnop/machinery/v2/config"
-	"github.com/RichardKnop/machinery/v2/log"
-	"github.com/RichardKnop/machinery/v2/tasks"
+	"github.com/heisGarvit/machinery/v2"
+	"github.com/heisGarvit/machinery/v2/config"
+	"github.com/heisGarvit/machinery/v2/log"
+	"github.com/heisGarvit/machinery/v2/tasks"
 
-	amqpbackend "github.com/RichardKnop/machinery/v2/backends/amqp"
-	amqpbroker "github.com/RichardKnop/machinery/v2/brokers/amqp"
-	exampletasks "github.com/RichardKnop/machinery/v2/example/tasks"
-	"github.com/RichardKnop/machinery/v2/example/tracers"
-	eagerlock "github.com/RichardKnop/machinery/v2/locks/eager"
+	amqpbackend "github.com/heisGarvit/machinery/v2/backends/amqp"
+	amqpbroker "github.com/heisGarvit/machinery/v2/brokers/amqp"
+	exampletasks "github.com/heisGarvit/machinery/v2/example/tasks"
+	"github.com/heisGarvit/machinery/v2/example/tracers"
+	eagerlock "github.com/heisGarvit/machinery/v2/locks/eager"
 )
 
 var (

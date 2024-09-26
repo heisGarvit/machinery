@@ -2,7 +2,7 @@ package tasks
 
 import (
 	"fmt"
-	"github.com/RichardKnop/machinery/v2/utils"
+	"github.com/heisGarvit/machinery/v2/utils"
 	"net/http"
 	"time"
 

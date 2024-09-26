@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/RichardKnop/machinery/v2/tasks"
+	"github.com/heisGarvit/machinery/v2/tasks"
 )
 
 var (
