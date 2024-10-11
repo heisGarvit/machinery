@@ -515,7 +515,9 @@ func convertHeaders(headers http.Header) amqp.Table {
 	table := make(amqp.Table, len(headers))
 
 	for k, v := range headers {
-		table[k] = v
+		for _, h := range v {
+			table[k] = h
+		}
 	}
 
 	return table

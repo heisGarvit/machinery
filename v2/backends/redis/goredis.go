@@ -15,7 +15,6 @@ import (
 	"github.com/heisGarvit/machinery/v2/config"
 	"github.com/heisGarvit/machinery/v2/log"
 	"github.com/heisGarvit/machinery/v2/tasks"
-	"github.com/redis/go-redis/extra/redisotel/v9"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -58,8 +57,8 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Backend {
 	} else {
 		b.rclient = redis.NewUniversalClient(ropt)
 	}
-	_ = redisotel.InstrumentTracing(b.rclient)
-	_ = redisotel.InstrumentMetrics(b.rclient)
+	//_ = redisotel.InstrumentTracing(b.rclient)
+	//_ = redisotel.InstrumentMetrics(b.rclient)
 	b.redsync = redsync.New(redsyncgoredis.NewPool(b.rclient))
 	return b
 }
